@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace pathfinding.pepe.character
+namespace pepecoral.pathfinding.character
 {
     public class CharacterMover : MonoBehaviour
     {
