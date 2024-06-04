@@ -23,6 +23,9 @@ namespace pepe.graph
             if (vector1 == null || vector2 == null)
                 throw new ArgumentNullException();
 
+            if (vector1 == vector2)
+                return 0;
+
             HashSet<Vector3> vectorSet = new HashSet<Vector3>() { vector1, vector2 };
 
             Debug.Assert(vectorSet.Count == 2);
