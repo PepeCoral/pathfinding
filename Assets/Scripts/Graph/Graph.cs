@@ -42,6 +42,11 @@ namespace pepe.graph
         }
 
         public IEnumerable<T> Vertices => vertices.Keys;
+
+        public bool AreNeighbors(T vertex1, T vertex2)
+        {
+            return GetVertex(vertex1).IsNeighbor(vertex2);
+        }
     }
 
 }
