@@ -1,10 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace pepe.graph
 {
-    public class Graph : MonoBehaviour
+    public class Graph<T>
     {
+        private Dictionary<T, GraphVertex<T>> vertices;
+
+        public Graph()
+        {
+            vertices = new Dictionary<T, GraphVertex<T>>();
+        }
+
+        public void AddVertex(T value)
+        {
+            if (!vertices.ContainsKey(value))
+            {
+                vertices[value] = new GraphVertex<T>(value);
+            }
+        }
+
+        public void AddEdge(T from, T to)
+        {
+            vertices[from].Neighbors.Add(GetVertex(to));
+            vertices[to].Neighbors.Add(GetVertex(from));
+        }
+
+        public GraphVertex<T> GetVertex(T value)
+        {
+            if (!this.Contains(value))
+                throw new ArgumentException(nameof(value), "The vertex is not in the graph");
+
+            return vertices[value];
+        }
+
+        public bool Contains(T value)
+        {
+            return vertices.ContainsKey(value);
+        }
+
+        public IEnumerable<T> Vertices => vertices.Keys;
     }
+
 }
