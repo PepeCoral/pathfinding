@@ -24,8 +24,8 @@ namespace pepe.graph
 
         public void AddEdge(T from, T to)
         {
-            vertices[from].Neighbors.Add(GetVertex(to));
-            vertices[to].Neighbors.Add(GetVertex(from));
+            GetVertex(from).Neighbors.Add(GetVertex(to));
+            GetVertex(to).Neighbors.Add(GetVertex(from));
         }
 
         public GraphVertex<T> GetVertex(T value)
