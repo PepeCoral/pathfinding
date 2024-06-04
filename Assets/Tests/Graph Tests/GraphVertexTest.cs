@@ -41,4 +41,52 @@ public class GraphVertexTest
         Assert.Throws<ArgumentNullException>(() => vertex.Value = null);
     }
 
+    [Test]
+    public void IsNeighbor_UsingVertex()
+    {
+        var vertex1 = new GraphVertex<int>(5);
+        var vertex2 = new GraphVertex<int>(2);
+
+        vertex1.Neighbors.Add(vertex2);
+        Assert.IsTrue(vertex1.IsNeighbor(vertex2), "Vertex 1 should be neighbor of vertex 2");
+    }
+
+    [Test]
+    public void IsNeighbor_UsingValue()
+    {
+        var vertex1 = new GraphVertex<int>(5);
+        var vertex2 = new GraphVertex<int>(2);
+
+        vertex1.Neighbors.Add(vertex2);
+        Assert.IsTrue(vertex1.IsNeighbor(vertex2.Value), "Vertex 1 should be neighbor of vertex 2");
+    }
+
+    [Test]
+    public void IsNotNeighbor_UsingVertex()
+    {
+        var vertex1 = new GraphVertex<int>(5);
+        var vertex2 = new GraphVertex<int>(2);
+
+
+        Assert.IsFalse(vertex1.IsNeighbor(vertex2), "Vertex 1 should be neighbor of vertex 2");
+    }
+
+    [Test]
+    public void IsNotNeighbor_UsingValue()
+    {
+        var vertex1 = new GraphVertex<int>(5);
+        var vertex2 = new GraphVertex<int>(2);
+
+
+        Assert.IsFalse(vertex1.IsNeighbor(vertex2.Value), "Vertex 1 should be neighbor of vertex 2");
+    }
+
+    [Test]
+    public void IsNeighborNull_UsingValue()
+    {
+        var vertex1 = new GraphVertex<int>(5);
+
+        Assert.Throws<ArgumentNullException>(() => vertex1.IsNeighbor(null), "Vertex cannot be null");
+    }
+
 }

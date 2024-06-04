@@ -29,15 +29,82 @@ public class GraphTest
     public void AddNullVertex()
     {
         var graph = new Graph<List<int>>();
-        Assert.Throws<ArgumentNullException>(() => graph.AddVertex(null));
+        Assert.Throws<ArgumentNullException>(() => graph.AddVertex(null), "The graph cannot add a vertex that is null");
     }
 
-    //[Test]
-    //public void ContainsVertex()
-    //{
-    //    var graph = new Graph<int>();
+    [Test, TestCaseSource(nameof(GetTestCases))]
+    public void ContainsVertex<T>(T value)
+    {
+        var graph = new Graph<T>();
+        graph.AddVertex(value);
 
-    //    Assert.Throws<ArgumentNullException>(() => graph.AddVertex(null));
-    //}
+        Assert.IsTrue(graph.Contains(value), $"The graph should contain {value}");
+    }
+
+    [Test]
+    [TestCase(4, 5)]
+    [TestCase(4f, 5.5f)]
+    [TestCase("hello", "bye")]
+    public void DoesNotContainVertex<T>(T contained, T notContained)
+    {
+
+        var graph = new Graph<T>();
+        graph.AddVertex(contained);
+        Assert.IsFalse(graph.Contains(notContained), $"The graph should not contain{notContained}");
+    }
+
+    public void GetNonExistingVertex<T>(T contained, T notContained)
+    {
+        var graph = new Graph<T>();
+        graph.AddVertex(contained);
+        Assert.Throws<ArgumentException>(() => graph.GetVertex(notContained), "The graph cannot return a vertex that is not stored");
+    }
+
+    [Test]
+    [TestCase(3, 5)]
+    [TestCase("hello", "world")]
+    public void AddEdge<T>(T from, T to)
+    {
+        var graph = new Graph<T>();
+        graph.AddVertex(from);
+        graph.AddVertex(to);
+        graph.AddEdge(from, to);
+
+        Assert.IsTrue(graph.GetVertex(from).IsNeighbor(to), "Origin vertex should be neighbor of destiny vertex");
+        Assert.IsTrue(graph.GetVertex(to).IsNeighbor(from), "Destiny vertex should be neighbor of origin vertex");
+
+    }
+
+    [Test]
+    [TestCase(3, 5)]
+    [TestCase("hello", "world")]
+    public void AreNeighbor<T>(T vertex1, T vertex2)
+    {
+        var graph = new Graph<T>();
+        graph.AddVertex(vertex1);
+        graph.AddVertex(vertex2);
+        graph.AddEdge(vertex1, vertex2);
+
+        Assert.IsTrue(graph.AreNeighbors(vertex1, vertex2), $"Vertex:{vertex1} and vertex:{vertex2} should be neighbors");
+        Assert.IsTrue(graph.AreNeighbors(vertex2, vertex1), $"Vertex:{vertex2} and vertex:{vertex1} should be neighbors");
+
+    }
+
+
+    [Test]
+    [TestCase(3, 5)]
+    [TestCase("hello", "world")]
+    public void AreNotNeighbor<T>(T vertex1, T vertex2)
+    {
+        var graph = new Graph<T>();
+        graph.AddVertex(vertex1);
+        graph.AddVertex(vertex2);
+
+        Assert.IsFalse(graph.AreNeighbors(vertex1, vertex2), $"Vertex:{vertex1} and vertex:{vertex2} should be neighbors");
+        Assert.IsFalse(graph.AreNeighbors(vertex2, vertex1), $"Vertex:{vertex2} and vertex:{vertex1} should be neighbors");
+
+    }
+
+
 
 }
