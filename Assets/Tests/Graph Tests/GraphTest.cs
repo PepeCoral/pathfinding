@@ -78,6 +78,30 @@ public class GraphTest
     [Test]
     [TestCase(3, 5)]
     [TestCase("hello", "world")]
+    public void AddEdgeToNonExistingVertexDestiny<T>(T from, T to)
+    {
+        var graph = new Graph<T>();
+        graph.AddVertex(from);
+
+        Assert.Throws<ArgumentException>(() => graph.AddEdge(from, to), "Destiny vertex should be in the graph");
+
+    }
+
+    [Test]
+    [TestCase(3, 5)]
+    [TestCase("hello", "world")]
+    public void AddEdgeToNonExistingVertexOrigin<T>(T from, T to)
+    {
+        var graph = new Graph<T>();
+        graph.AddVertex(to);
+
+        Assert.Throws<ArgumentException>(() => graph.AddEdge(from, to), "Origin vertex should be in the graph");
+
+    }
+
+    [Test]
+    [TestCase(3, 5)]
+    [TestCase("hello", "world")]
     public void AreNeighbor<T>(T vertex1, T vertex2)
     {
         var graph = new Graph<T>();
@@ -102,6 +126,21 @@ public class GraphTest
 
         Assert.IsFalse(graph.AreNeighbors(vertex1, vertex2), $"Vertex:{vertex1} and vertex:{vertex2} should be neighbors");
         Assert.IsFalse(graph.AreNeighbors(vertex2, vertex1), $"Vertex:{vertex2} and vertex:{vertex1} should be neighbors");
+
+    }
+
+    [Test]
+    public void AreNeighborsNull()
+    {
+        var graph = new Graph<List<int>>();
+
+        var vertex1 = new List<int>() { 1 };
+        var vertex2 = new List<int>() { 2 };
+        graph.AddVertex(vertex1);
+        graph.AddVertex(vertex2);
+
+        Assert.Throws<ArgumentNullException>(() => graph.AreNeighbors(null, vertex2), "First argument cannot be null");
+        Assert.Throws<ArgumentNullException>(() => graph.AreNeighbors(vertex1, null), "Second argument cannot be null");
 
     }
 
