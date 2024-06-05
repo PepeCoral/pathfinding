@@ -164,6 +164,123 @@ namespace pepe.graph.tests
             Assert.IsTrue(graph.AreNeighbors(value2, value1), $"Vertex:{value2} and vertex:{value1} should be neighbors");
         }
 
+        public static IEnumerable<object[]> GetGraphsAndConectedComponetsNumber()
+        {
+
+            var graph0 = new Graph<int>();
+            graph0.AddVertex(0);
+            graph0.AddVertex(1);
+            graph0.AddVertex(2);
+
+            var graph1 = new Graph<int>();
+            graph1.AddVertex(0);
+            graph1.AddVertex(1);
+            graph1.AddVertex(2);
+            graph1.AddEdge(0, 1);
+            graph1.AddEdge(1, 2);
+
+            var graph2 = new Graph<int>();
+            graph2.AddVertex(1);
+            graph2.AddVertex(2);
+            graph2.AddVertex(3);
+            graph2.AddVertex(4);
+            graph2.AddVertex(5);
+            graph2.AddVertex(6);
+            graph2.AddVertex(7);
+            graph2.AddVertex(8);
+            graph2.AddVertex(9);
+            graph2.AddVertex(10);
+            graph2.AddVertex(11);
+            graph2.AddVertex(12);
+            graph2.AddEdge(7, 1);
+            graph2.AddEdge(7, 2);
+            graph2.AddEdge(7, 4);
+            graph2.AddEdge(7, 8);
+            graph2.AddEdge(7, 10);
+            graph2.AddEdge(7, 9);
+            graph2.AddEdge(2, 4);
+            graph2.AddEdge(5, 11);
+            graph2.AddEdge(3, 6);
+            graph2.AddEdge(12, 6);
+
+            var graph3 = new Graph<int>();
+            graph3.AddVertex(1);
+            graph3.AddVertex(2);
+            graph3.AddVertex(3);
+            graph3.AddVertex(4);
+            graph3.AddVertex(5);
+            graph3.AddVertex(6);
+            graph3.AddVertex(7);
+            graph3.AddVertex(8);
+            graph3.AddVertex(9);
+            graph3.AddVertex(10);
+            graph3.AddVertex(11);
+            graph3.AddVertex(12);
+            graph3.AddEdge(7, 1);
+            graph3.AddEdge(7, 2);
+            graph3.AddEdge(7, 4);
+            graph3.AddEdge(7, 8);
+            graph3.AddEdge(7, 10);
+            graph3.AddEdge(7, 9);
+            graph3.AddEdge(2, 4);
+            graph3.AddEdge(5, 11);
+            graph3.AddEdge(3, 6);
+            graph3.AddEdge(12, 6);
+            graph3.AddEdge(12, 11);
+
+            var graph4 = new Graph<int>();
+            graph4.AddVertex(1);
+            graph4.AddVertex(2);
+            graph4.AddVertex(3);
+            graph4.AddVertex(4);
+            graph4.AddVertex(5);
+            graph4.AddVertex(6);
+            graph4.AddVertex(7);
+            graph4.AddVertex(8);
+            graph4.AddVertex(9);
+            graph4.AddVertex(10);
+            graph4.AddVertex(11);
+            graph4.AddVertex(12);
+            graph4.AddVertex(13);
+            graph4.AddEdge(7, 1);
+            graph4.AddEdge(7, 2);
+            graph4.AddEdge(7, 4);
+            graph4.AddEdge(7, 8);
+            graph4.AddEdge(7, 10);
+            graph4.AddEdge(7, 9);
+            graph4.AddEdge(2, 4);
+            graph4.AddEdge(5, 11);
+            graph4.AddEdge(3, 6);
+            graph4.AddEdge(12, 6);
+            graph4.AddEdge(12, 11);
+            graph4.AddEdge(10, 11);
+
+
+            yield return new object[] { graph0, 3 };
+            yield return new object[] { graph1, 1 };
+            yield return new object[] { graph2, 3 };
+            yield return new object[] { graph3, 2 };
+            yield return new object[] { graph4, 2 };
+        }
+
+        [Test, TestCaseSource(nameof(GetGraphsAndConectedComponetsNumber))]
+        public void ConectedComponents<T>(Graph<T> graph, int count)
+        {
+            Assert.AreEqual(graph.ConectectedComponentsNumber(), count, $"This graph should have {count} conected components");
+            Assert.AreEqual(graph.IsConected(), count <= 1, $"This graph should {(count <= 1 ? "" : "not")} be conected");
+        }
+
+
+
+        [Test]
+        public void ConectedComponentsAre0()
+        {
+            var graph = new Graph<int>();
+            Assert.AreEqual(graph.ConectectedComponentsNumber(), 0, "A graph without vertices should have 0 connected componets");
+        }
+
+
+
 
 
     }

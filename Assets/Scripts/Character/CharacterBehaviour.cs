@@ -1,46 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using pepe.pathfinding;
 
-
-namespace pepecoral.pathfinding.character
+namespace pepe.pathfinding.character
 {
     public class CharacterBehaviour : MonoBehaviour
     {
         Vector3 _worldMousePosition;
 
-        public delegate void _OnPositionOrdered(Vector3 postion);
-        public static event _OnPositionOrdered OnPositionOrdered;
+        public delegate void _UpdateCharacterTargetPosition(Vector3 postion);
+        public static event _UpdateCharacterTargetPosition UpdateCharacterTargetPosition;
+
+
+        [SerializeField] LayerMask floorLayer;
 
         void Update()
         {
             if (Input.GetMouseButtonDown(0))
             {
-                MovePlayerToPosition();
+                UpdateTargetPosition();
             }
+
+
         }
 
-        private void MovePlayerToPosition()
+        private void UpdateTargetPosition()
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 1000))
+            if (Physics.Raycast(ray, out hit, 1000, floorLayer))
             {
-                _worldMousePosition = hit.point;
+                if (hit.collider.CompareTag("Floor"))
+                {
+                    _worldMousePosition = hit.point;
+                    if (UpdateCharacterTargetPosition != null)
+                        UpdateCharacterTargetPosition(_worldMousePosition);
+                }
             }
 
-            OnPositionOrdered(_worldMousePosition);
+
 
         }
 
         private void OnDrawGizmos()
         {
-            if (_worldMousePosition!=null)
+            if (_worldMousePosition != null)
             {
                 Gizmos.color = Color.yellow;
-                Gizmos.DrawSphere(_worldMousePosition, 0.5f);
+                Gizmos.DrawSphere(_worldMousePosition, 0.2f);
             }
         }
+
+
+
+
     }
 
 }

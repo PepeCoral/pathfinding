@@ -47,6 +47,45 @@ namespace pepe.graph
         {
             return GetVertex(vertex1).IsNeighbor(vertex2);
         }
+
+        public bool IsConected()
+        {
+            return ConectectedComponentsNumber() <= 1;
+        }
+
+        public int ConectectedComponentsNumber()
+        {
+
+            int count = 0;
+            HashSet<T> visited = new HashSet<T>();
+            Stack<T> stack = new Stack<T>();
+
+
+            foreach (var vertex in Vertices)
+            {
+                if (!visited.Contains(vertex))
+                {
+                    stack.Push(vertex);
+                    visited.Add(vertex);
+
+                    while (stack.Count > 0)
+                    {
+                        T visiting = stack.Pop();
+
+                        foreach (var neighbor in vertices[visiting].Neighbors)
+                        {
+                            if (!visited.Contains(neighbor.Value))
+                            {
+                                stack.Push(neighbor.Value);
+                                visited.Add(neighbor.Value);
+                            }
+                        }
+                    }
+                    count++;
+                }
+            }
+            return count;
+        }
     }
 
 }
