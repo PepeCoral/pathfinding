@@ -147,6 +147,23 @@ namespace pepe.graph.tests
 
         }
 
+        [Test]
+        [TestCase(3, 5)]
+        [TestCase("hello", "world")]
+        public void AddEdgeMultipleTimes<T>(T value1, T value2)
+        {
+            var graph = new Graph<T>();
+            graph.AddVertex(value1);
+            graph.AddVertex(value2);
+
+            graph.AddEdge(value1, value2);
+            graph.AddEdge(value1, value2);
+            graph.AddEdge(value1, value2);
+
+            Assert.IsTrue(graph.AreNeighbors(value1, value2), $"Vertex:{value1} and vertex:{value2} should be neighbors");
+            Assert.IsTrue(graph.AreNeighbors(value2, value1), $"Vertex:{value2} and vertex:{value1} should be neighbors");
+        }
+
 
 
     }
