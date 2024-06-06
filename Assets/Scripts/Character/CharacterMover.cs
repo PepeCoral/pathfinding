@@ -2,25 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace pepecoral.pathfinding.character
+namespace pepe.pathfinding.character
 {
     public class CharacterMover : MonoBehaviour
     {
         [SerializeField] float walkingSpeed;
+        [SerializeField] float radius;
 
         Vector3 _postionToMove;
 
+        private void Start()
+        {
+            _postionToMove = transform.position;
+        }
 
         private void OnEnable()
         {
-            CharacterBehaviour.OnPositionOrdered += MoveToPosition; 
+            CharacterNavigator.UpdateCharacterMoverPostion += MoveToPosition;
         }
         private void OnDisable()
         {
-            CharacterBehaviour.OnPositionOrdered -= MoveToPosition;
+            CharacterNavigator.UpdateCharacterMoverPostion -= MoveToPosition;
         }
         private void MoveToPosition(Vector3 position)
-        {   
+        {
             //Corrected Position makes sure the Y value is the same height as the character
             Vector3 correctedPosition = new Vector3(position.x, transform.position.y, position.z);
             _postionToMove = correctedPosition;
@@ -29,10 +34,10 @@ namespace pepecoral.pathfinding.character
 
         private void FixedUpdate()
         {
-            if (_postionToMove != null)
-            { 
+            if (Vector3.Distance(transform.position, _postionToMove) > radius)
+            {
                 transform.LookAt(_postionToMove);
-                transform.position+= transform.forward*walkingSpeed;
+                transform.Translate(Vector3.forward * walkingSpeed);
             }
         }
     }
