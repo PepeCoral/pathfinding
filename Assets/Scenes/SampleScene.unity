@@ -7108,6 +7108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _navigatorMesh: {fileID: 1182040316}
+  radius: 0.1
 --- !u!1001 &631261784
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23779,6 +23780,10 @@ PrefabInstance:
     - target: {fileID: 6590574079635150552, guid: b548bdb2c5ed67840a214747cbf1d5bf, type: 3}
       propertyPath: m_Name
       value: Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605554650318005297, guid: b548bdb2c5ed67840a214747cbf1d5bf, type: 3}
+      propertyPath: radius
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8605554650318005297, guid: b548bdb2c5ed67840a214747cbf1d5bf, type: 3}
       propertyPath: walkingSpeed

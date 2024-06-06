@@ -11,6 +11,10 @@ namespace pepe.pathfinding.character
 
         Vector3 _postionToMove;
 
+        private void Start()
+        {
+            _postionToMove = transform.position;
+        }
 
         private void OnEnable()
         {

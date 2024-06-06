@@ -10,7 +10,7 @@ namespace pepe.pathfinding.character
         Queue<Vector3> path = new Queue<Vector3>();
         [SerializeField] float radius;
         Vector3 currentTarget;
-        Vector3 lastTarget;
+
 
         public delegate void _UpdateCharacterMoverPostion(Vector3 postion);
         public static event _UpdateCharacterMoverPostion UpdateCharacterMoverPostion;
@@ -32,8 +32,9 @@ namespace pepe.pathfinding.character
             Vector3 source = _navigatorMesh.GetClosestVertexToPosition(transform.position);
             Vector3 sink = _navigatorMesh.GetClosestVertexToPosition(position);
             path = new Queue<Vector3>(_navigatorMesh.GetPath(source, sink));
+            path.Enqueue(position);
             changeCurrentTarget(path.Dequeue());
-            lastTarget = position;
+
         }
 
 
@@ -44,14 +45,8 @@ namespace pepe.pathfinding.character
                 if (Vector3.Distance(currentTarget, transform.position) < radius)
                     changeCurrentTarget(path.Dequeue());
 
-
-
             }
-            else
-            {
-                if (Vector3.Distance(currentTarget, transform.position) < radius)
-                    changeCurrentTarget(lastTarget);
-            }
+
         }
 
         private void changeCurrentTarget(Vector3 newTarget)
