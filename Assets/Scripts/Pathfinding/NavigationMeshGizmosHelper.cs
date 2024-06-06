@@ -1,12 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 
 namespace pepe.pathfinding
 {
     public class NavigationMeshGizmosHelper : MonoBehaviour
     {
+        //Gizmos Options
+        private enum GizmosDisplay { OFF = 0, ON = 1 };
+        private enum VertexDisplay { OFF = 0, ON = 1 };
+        private enum EdgesDisplay { OFF = 0, GRID = 1, GRID_AND_PATH = 2, PATH = 3 };
+
+
+        GizmosDisplay gizmosDisplay = GizmosDisplay.OFF;
+        VertexDisplay vertexDisplay = VertexDisplay.ON;
+        EdgesDisplay edgesDisplay = EdgesDisplay.GRID_AND_PATH;
+
+
+        Color edgeNormalColor = Color.yellow;
+        Color edgePathColor = Color.red;
+        Color vertexColor = Color.magenta;
+
         public class Line
         {
             public Vector3 start;
@@ -38,7 +53,7 @@ namespace pepe.pathfinding
         {
             foreach (var line in lines.Values)
             {
-                line.SetColor(Color.yellow);
+                line.SetColor(edgeNormalColor);
             }
 
             for (int i = 0; i < path.Count - 1; i++)
@@ -46,7 +61,26 @@ namespace pepe.pathfinding
                 var source = path[i];
                 var sink = path[i + 1];
 
-                lines[new HashSet<Vector3>() { source, sink }].SetColor(Color.red);
+                lines[new HashSet<Vector3>() { source, sink }].SetColor(edgePathColor);
+            }
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                gizmosDisplay++;
+                gizmosDisplay = (GizmosDisplay)(((int)gizmosDisplay) % Enum.GetNames(typeof(GizmosDisplay)).Length);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                vertexDisplay++;
+                vertexDisplay = (VertexDisplay)(((int)vertexDisplay) % Enum.GetNames(typeof(VertexDisplay)).Length);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                edgesDisplay++;
+                edgesDisplay = (EdgesDisplay)(((int)edgesDisplay) % Enum.GetNames(typeof(EdgesDisplay)).Length);
             }
         }
 
@@ -54,21 +88,33 @@ namespace pepe.pathfinding
 
         private void OnDrawGizmos()
         {
-            if (lines == null)
+            if (gizmosDisplay == GizmosDisplay.OFF)
                 return;
 
-            foreach (var line in lines.Values)
+            if (edgesDisplay != EdgesDisplay.OFF)
             {
-                Gizmos.color = line.color;
-                Gizmos.DrawLine(line.start, line.end);
+                foreach (var line in lines.Values)
+                {
+                    if (edgesDisplay != EdgesDisplay.PATH || line.color == edgePathColor)
+                    {
+                        Gizmos.color = line.color;
 
+                        if (edgesDisplay == EdgesDisplay.GRID)
+                        { Gizmos.color = edgeNormalColor; }
 
+                        Gizmos.DrawLine(line.start, line.end);
+                    }
+
+                }
             }
 
-            foreach (var vertex in vertices)
+            if (vertexDisplay != VertexDisplay.OFF)
             {
-                Gizmos.color = Color.green;
-                Gizmos.DrawSphere(vertex, 0.05f);
+                foreach (var vertex in vertices)
+                {
+                    Gizmos.color = vertexColor;
+                    Gizmos.DrawSphere(vertex, 0.05f);
+                }
             }
         }
     }
