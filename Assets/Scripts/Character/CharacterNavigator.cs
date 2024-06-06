@@ -27,11 +27,14 @@ namespace pepe.pathfinding.character
             CharacterBehaviour.UpdateCharacterTargetPosition -= Navigate;
         }
 
-        public void Navigate(Vector3 position)
+        public async void Navigate(Vector3 position)
         {
             Vector3 source = _navigatorMesh.GetClosestVertexToPosition(transform.position);
+            path.Enqueue(source);
+            changeCurrentTarget(path.Dequeue());
+
             Vector3 sink = _navigatorMesh.GetClosestVertexToPosition(position);
-            path = new Queue<Vector3>(_navigatorMesh.GetPath(source, sink));
+            path = new Queue<Vector3>(await _navigatorMesh.GetPathAsync(source, sink));
             path.Enqueue(position);
             changeCurrentTarget(path.Dequeue());
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using pepe.graph;
 using System.Linq;
 using System;
+using System.Threading.Tasks;
 
 namespace pepe.pathfinding
 {
@@ -31,9 +32,6 @@ namespace pepe.pathfinding
 
             foreach (var position in vertexPositionsGrid(new Vector3(1.5f, 0, 1.5f), maxSize, step))
             {
-
-
-
 
                 addVertexToGraph(position);
 
@@ -98,6 +96,13 @@ namespace pepe.pathfinding
         public List<Vector3> GetPath(Vector3 source, Vector3 sink)
         {
             List<Vector3> path = Pathfinding.AStarShortestPath(graph, source, sink);
+            gizmosHelper.UpdatePath(path);
+            return path;
+        }
+
+        public async Task<List<Vector3>> GetPathAsync(Vector3 source, Vector3 sink)
+        {
+            List<Vector3> path = await Task.Run(() => Pathfinding.AStarShortestPath(graph, source, sink));
             gizmosHelper.UpdatePath(path);
             return path;
         }
