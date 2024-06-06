@@ -27,8 +27,6 @@ namespace pepe.pathfinding
 
         private void SpawnMesh()
         {
-            GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            sphere.transform.localScale = Vector3.one * 0.3f;
 
             foreach (var position in vertexPositionsGrid(new Vector3(1.5f, 0, 1.5f), maxSize, step))
             {
@@ -83,10 +81,8 @@ namespace pepe.pathfinding
                 return;
             }
 
-
             if (!Physics.Raycast(vertexSource, vertexSink - vertexSource, Vector3.Distance(vertexSource, vertexSink), obstaclesLayer))
             {
-
 
                 gizmosHelper.AddLine(vertexSource, vertexSink);
                 graph.AddEdge(vertexSource, vertexSink);

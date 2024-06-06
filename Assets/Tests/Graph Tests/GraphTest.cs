@@ -266,7 +266,7 @@ namespace pepe.graph.tests
         [Test, TestCaseSource(nameof(GetGraphsAndConectedComponetsNumber))]
         public void ConectedComponents<T>(Graph<T> graph, int count)
         {
-            Assert.AreEqual(graph.ConectectedComponentsNumber(), count, $"This graph should have {count} conected components");
+            Assert.AreEqual(graph.ConectedSetsNumber(), count, $"This graph should have {count} conected components");
             Assert.AreEqual(graph.IsConected(), count <= 1, $"This graph should {(count <= 1 ? "" : "not")} be conected");
         }
 
@@ -276,7 +276,7 @@ namespace pepe.graph.tests
         public void ConectedComponentsAre0()
         {
             var graph = new Graph<int>();
-            Assert.AreEqual(graph.ConectectedComponentsNumber(), 0, "A graph without vertices should have 0 connected componets");
+            Assert.AreEqual(graph.ConectedSetsNumber(), 0, "A graph without vertices should have 0 connected componets");
         }
 
 

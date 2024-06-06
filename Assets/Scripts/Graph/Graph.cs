@@ -50,10 +50,10 @@ namespace pepe.graph
 
         public bool IsConected()
         {
-            return ConectectedComponentsNumber() <= 1;
+            return ConectedSetsNumber() <= 1;
         }
 
-        public int ConectectedComponentsNumber()
+        public int ConectedSetsNumber()
         {
 
             int count = 0;

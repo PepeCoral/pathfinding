@@ -38,10 +38,6 @@ namespace pepe.graph
             return distance;
         }
 
-        private bool isDistanceInMemory(Vector3 vector1, Vector3 vector2)
-        {
-            return isDistanceInMemory(new HashSet<Vector3>() { vector1, vector2 });
-        }
         private bool isDistanceInMemory(HashSet<Vector3> vectorSet)
         {
             return distanceMemory.ContainsKey(vectorSet);
