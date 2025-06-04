@@ -1,4 +1,4 @@
-#Introduction
+# Introduction
 This repository has a basic implementation of a pathfinding system in unity using an A* algorithm. This code was made to ilustrate a talk about pathfinding algorithms
 
 
